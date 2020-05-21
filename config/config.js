@@ -1,11 +1,18 @@
+require('dotenv').config();
+
 module.exports = {
   development: {
-    port: 4611,
-    username: '',
-    password: process.env.DB_PASSWORD,
-    database: '',
-    host: '',
+    username: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD,
+    host: process.env.RDS_HOSTNAME,
+    database: 'yourtube_development',
     dialect: 'mysql',
-    logging: false,
+  },
+  production: {
+    username: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD,
+    host: process.env.RDS_HOSTNAME,
+    database: 'yourtube_production',
+    dialect: 'mysql',
   },
 };
