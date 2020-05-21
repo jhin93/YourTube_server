@@ -2,7 +2,7 @@
   "name": "your_tube-server",
   "version": "1.0.0",
   "description": "Codestates Immersive 19 First project",
-  "main": "sample.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js"
