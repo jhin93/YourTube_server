@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       etag: DataTypes.STRING,
       videoId: DataTypes.STRING,
+      channelId: DataTypes.STRING,
       title: DataTypes.STRING,
       description: DataTypes.TEXT,
       thumbnail: DataTypes.STRING,

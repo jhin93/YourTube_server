@@ -14,6 +14,9 @@ module.exports = {
       videoId: {
         type: Sequelize.STRING,
       },
+      channelId: {
+        type: Sequelize.STRING,
+      },
       title: {
         type: Sequelize.STRING,
       },

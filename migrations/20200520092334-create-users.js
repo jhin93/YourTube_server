@@ -14,7 +14,7 @@ module.exports = {
       channelId: {
         type: Sequelize.STRING,
       },
-      playlistId: {
+      likePlaylistId: {
         type: Sequelize.STRING,
       },
       createdAt: {
