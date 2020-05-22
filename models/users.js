@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       channelId: DataTypes.STRING,
-      playlistId: DataTypes.STRING,
+      likePlaylistId: DataTypes.STRING,
     },
     {}
   );
