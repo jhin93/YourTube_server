@@ -1,7 +1,5 @@
 const resource = require('./resource');
 module.exports = {
-  get: (req, res) => {
-    res.send('videoController-get');
-  },
+  get: resource.get,
   post: resource.post,
 };
