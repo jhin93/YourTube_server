@@ -8,14 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      name: {
-        type: Sequelize.STRING,
-      },
       channelId: {
         type: Sequelize.STRING,
       },
       likePlaylistId: {
         type: Sequelize.STRING,
+      },
+      refreshToken: {
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,

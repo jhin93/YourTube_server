@@ -6,17 +6,17 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        auto_increament: true,
+        autoIncrement: true,
         defaultValue: 0,
       },
-      name: DataTypes.STRING,
       channelId: DataTypes.STRING,
       likePlaylistId: DataTypes.STRING,
+      refreshToken: DataTypes.TEXT,
     },
     {}
   );
   Users.associate = function (models) {
-    // associations can be defined here
+    // Users.hasMany(models.Videos, { sourceKey: 'id', as: 'userId' });
   };
   return Users;
 };

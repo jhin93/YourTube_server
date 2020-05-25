@@ -6,6 +6,7 @@ module.exports = {
       'Videos',
       [
         {
+          userId: 1,
           etag: 'inaxQoGcJBG-PsQkB2U89EuB_zg',
           videoId: 'KN5T3KgEcSg',
           channelId: 'LLSeLavjR1tHXn65zXUAznnw',
@@ -17,6 +18,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          userId: 2,
           etag: 'inaxQoGcJBG-PsQkB2U89EuB_zg',
           videoId: 'KN5T3KgEcSg',
           channelId: 'LLSeLavjR1tHXn65zXUAznnw',
@@ -28,6 +30,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          userId: 3,
           etag: 'inaxQoGcJBG-PsQkB2U89EuB_zg',
           videoId: 'KN5T3KgEcSg',
           channelId: 'LLSeLavjR1tHXn65zXUAznnw',
@@ -39,6 +42,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          userId: 4,
           etag: 'inaxQoGcJBG-PsQkB2U89EuB_zg',
           videoId: 'KN5T3KgEcSg',
           channelId: 'LLSeLavjR1tHXn65zXUAznnw',
@@ -50,6 +54,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          userId: 5,
           etag: 'inaxQoGcJBG-PsQkB2U89EuB_zg',
           videoId: 'KN5T3KgEcSg',
           channelId: 'LLSeLavjR1tHXn65zXUAznnw',
