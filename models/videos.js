@@ -3,6 +3,12 @@ module.exports = (sequelize, DataTypes) => {
   const Videos = sequelize.define(
     'Videos',
     {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        auto_increament: true,
+        defaultValue: 0,
+      },
       etag: DataTypes.STRING,
       videoId: DataTypes.STRING,
       channelId: DataTypes.STRING,
