@@ -1,6 +1,7 @@
 const request = require('request');
 const { users } = require('../../models');
 const crypto = require('crypto');
+const { util } = require('../../controller');
 
 function getRefreshToken(token, req, res) {
   let refreshOption = {
@@ -21,11 +22,7 @@ function getRefreshToken(token, req, res) {
     // * 사실 유저를 다시 로그인페이지로 리디렉션 시켜야합니다.
     else {
       body = JSON.parse(body);
-      req.cookies.accessToken = crypto.createCipheriv(
-        'aes-256-ctr',
-        crypto.createPrivateKey(process.env.KEY_FROM),
-        process.env.KEY_IV
-      );
+      req.cookies.accessToken = util.aes256CTREncrypt(body.access_token);
     }
   });
 }
@@ -85,6 +82,13 @@ module.exports = {
 
     // * 유튜브 서버의 응답을 기다립니다.
     request.get(playlistOption, playlistCallback);
+    request.get(playlistOption, (err, response, body) => {
+      if (err) {
+      } // todo 로그인 리디렉션
+      else {
+        res.send(body);
+      }
+    });
   },
   post: (req, res) => {
     res.send('videoController-post');
