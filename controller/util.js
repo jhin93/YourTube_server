@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 
 module.export = {
-  aes256CTREncrypt: (req, res) => {
+  aes256CTREncrypt: (string) => {
     let key = crypto
       .createHash('sha512')
       .update(process.env.KEY_FROM)
@@ -15,12 +15,12 @@ module.export = {
       .slice(0, 16);
 
     const cipher = crypto.createCipheriv('aes-256-ctr', key, iv);
-    let result = cipher.update(req.body.data, 'utf8', 'hex'); // 'HbMtmFdroLU0arLpMflQ'
+    let result = cipher.update(string, 'utf8', 'hex'); // 'HbMtmFdroLU0arLpMflQ'
     result += cipher.final('hex');
 
-    res.send(result);
+    return result;
   },
-  aes256CTRDecrypt: (req, res) => {
+  aes256CTRDecrypt: (string) => {
     let key = crypto
       .createHash('sha512')
       .update(process.env.KEY_FROM)
@@ -33,10 +33,10 @@ module.export = {
       .digest('hex')
       .slice(0, 16);
     const decipher = crypto.createDecipheriv('aes-256-ctr', key, iv);
-    let result2 = decipher.update(req.body.data, 'hex', 'utf8');
-    result2 += decipher.final('utf8');
+    let result = decipher.update(string, 'hex', 'utf8');
+    result += decipher.final('utf8');
 
-    res.send(result);
+    return result;
   },
 };
 /**
