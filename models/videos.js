@@ -3,12 +3,12 @@ module.exports = (sequelize, DataTypes) => {
   const Videos = sequelize.define(
     'Videos',
     {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-        defaultValue: 0,
-      },
+      // id: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      //   autoIncrement: true,
+      //   defaultValue: 0,
+      // },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
