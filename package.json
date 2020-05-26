@@ -29,6 +29,9 @@
   },
   "devDependencies": {
     "colors": "^1.4.0",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
     "nodemon": "^2.0.4",
     "sequelize-cli": "^5.5.1"
   },

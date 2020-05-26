@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('colors');
 const { log } = console;
+const util = require('../util.js');
 const request = require('request-promise-native');
 
 module.exports = async (req, res) => {
@@ -36,20 +37,24 @@ module.exports = async (req, res) => {
       // 로그인 세션 생성
       req.session.accessToken = {
         value: access_token,
-        maxAge: expires_in * 1000, // expires 속성은 과거 브라우저용
+        maxAge: expires_in * 1000, // expires 속성은 과거 브라우저용 (maxAge vs expires)
       };
       // 쿠키 생성 및 응답
+      console.log(access_token);
+      console.log(util.aes256CTREncrypt(access_token));
       res
         .status(200)
-        .cookie('access_token', `Bearer ${access_token}`, {
-          // 토큰 암호화하여 넣기
-          maxAge: expires_in * 1000, // second to millisecond
-          httpOnly: true,
-          domain: 'http://localhost:3000', // S3 배포시 해당 엔드포인트로 변경
-          signed: true, // more secure
-        })
+        .cookie(
+          'access_token',
+          `Bearer ${util.aes256CTREncrypt(access_token)}`, // 토큰 암호화
+          {
+            maxAge: expires_in * 1000, // second to millisecond
+            httpOnly: true,
+            domain: 'http://localhost:3000', // S3 배포시 해당 엔드포인트로 변경
+            signed: true, // more secure
+          }
+        )
         .send('Success');
-      // .cookie('refresh_token', refresh_token, { signed: true }) // 클라이언트 사이드에서 탈취하여 서버로 요청할 가능성이 높기 때문에, 서버 사이드에서 관리한다.
     })
     .catch((err) => {
       log('Error at tokens request in auth.js: '.red, err);
