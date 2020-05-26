@@ -1,6 +1,5 @@
 const request = require('request');
-const { users } = require('../../models');
-const crypto = require('crypto');
+
 const { util } = require('../../controller');
 
 function getRefreshToken(token, req, res, flag) {
