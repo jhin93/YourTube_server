@@ -8,6 +8,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      name: {
+        type: Sequelize.STRING,
+      },
+      email: {
+        type: Sequelize.STRING,
+      },
+      picture: {
+        type: Sequelize.STRING,
+      },
       channelId: {
         type: Sequelize.STRING,
       },

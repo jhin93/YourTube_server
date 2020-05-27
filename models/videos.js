@@ -3,12 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   const Videos = sequelize.define(
     'Videos',
     {
-      // id: {
-      //   type: DataTypes.INTEGER,
-      //   allowNull: false,
-      //   autoIncrement: true,
-      //   defaultValue: 0,
-      // },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -20,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.TEXT,
       thumbnail: DataTypes.STRING,
     },
-    {}
+    {},
   );
   Videos.associate = function (models) {
     // Videos.belongsTo(models.Users, { foreignKey: 'id', targetKey: 'id' });

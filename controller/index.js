@@ -1,5 +1,4 @@
 module.exports = {
-  videoController: require('./video'),
-  userController: require('./user'),
-  util: require('./util'),
+  authController: require('./auth'),
+  resourceController: require('./resource'),
 };
