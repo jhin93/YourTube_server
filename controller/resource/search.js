@@ -17,8 +17,8 @@ module.exports = async (req, res) => {
             query: {
               bool: {
                 should: [
-                  { match: { title: req.body } },
-                  { match: { description: req.body } },
+                  { match: { title: req.params } },
+                  { match: { description: req.params } },
                 ],
               },
             },
