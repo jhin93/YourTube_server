@@ -96,7 +96,7 @@ module.exports = async (req, res) => {
     });
 
   // 유투브에서 좋아요 플레이리스트 데이터 가져오기
-  const params = [access_token, 15, likePlaylistId];
+  const params = [access_token, 30, likePlaylistId];
   const playlistRequestOptions = og.youtubePlaylistItemsRequestOptions(
     ...params
   );
@@ -114,8 +114,8 @@ module.exports = async (req, res) => {
           channelId: snippet.channelId,
           title: snippet.title,
           description:
-            snippet.description.length > 50
-              ? snippet.description.slice(0, 50)
+            snippet.description.length > 100
+              ? snippet.description.slice(0, 100) + '...'
               : snippet.description,
           thumbnail: snippet.thumbnails.high.url,
         };
