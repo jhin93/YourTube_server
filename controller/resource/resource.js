@@ -2,7 +2,7 @@ require('dotenv').config();
 require('colors');
 const request = require('request-promise-native');
 
-// const util = require('../util');
+const util = require('../util');
 const og = require('../optionGenerator');
 const { Users, Videos } = require('../../models');
 const { log } = console;
@@ -29,10 +29,10 @@ module.exports = async (req, res) => {
   /* 토큰이 아직 유효할 때 */
 
   // 1. 토큰 복호화
-  // const access_token = util.aes256CTRDecrypt(accessToken.value); // 테스트 후 적용하기
+  const access_token = util.aes256CTRDecrypt(cookies.accessToken);
 
   // 2. 세션 유효성 검사. 유효하지 않다면 클라이언트로 응답 및 함수 종료
-  if (!session.accessToken || session.accessToken.value !== cookies.accessToken) {
+  if (!session.accessToken || session.accessToken.value !== access_token) {
     log('Login session not exists');
     return res.status(401).send('Unauthorized');
   }
@@ -41,7 +41,9 @@ module.exports = async (req, res) => {
 
   // DB에 유저에 해당하는 정보가 있었다면(재요청시), 유저의 비디오 데이터 가져오기
   try {
-    const user = await Users.findOne({ where: { email: session.profile.email } });
+    const user = await Users.findOne({
+      where: { email: session.profile.email },
+    });
     const userId = user.get('id');
     const videos = await Videos.findAll({ where: { userId } });
     return res.status(200).json(videos); // DB에 이미 저장된 게 있으면 여기서 종료
@@ -53,7 +55,7 @@ module.exports = async (req, res) => {
   }
 
   // DB에 유저 비디오 리스트가 없으면(첫요청시), 유튜브에 요청 및 응답 데이터 DB에 저장하고, 그 결과를 클라이언트로 응답
-  const access_token = cookies.accessToken;
+  // const access_token = cookies.accessToken;
 
   /* 필요 데이터 정의 */
   const { name, email, picture } = session.profile;
@@ -65,15 +67,15 @@ module.exports = async (req, res) => {
   const channelRequestOptions = og.youtubeChannelRequestOptions(access_token);
 
   await request(channelRequestOptions)
-    .then(data => {
+    .then((data) => {
       // log('Channel data'.cyan, data);
       const { id, contentDetails } = data.items[0];
       channelId = id;
       likePlaylistId = contentDetails.relatedPlaylists.likes;
-      // log('channelId: '.yellow, channelId);
-      // log('myLikePlaylistId: '.yellow, likePlaylistId);
+      log('channelId: '.yellow, channelId);
+      log('myLikePlaylistId: '.yellow, likePlaylistId);
     })
-    .catch(err => {
+    .catch((err) => {
       log('Error at youtube channel request in resource.js: '.red, err);
     });
 
@@ -86,19 +88,21 @@ module.exports = async (req, res) => {
     likePlaylistId,
     refreshToken,
   })
-    .then(user => {
+    .then((user) => {
       userId = user.get('id'); // 생성된 유저의 id 추출해 재할당
     })
-    .catch(err => {
+    .catch((err) => {
       log('Error at Users.create in resource.js: '.red, err);
     });
 
   // 유투브에서 좋아요 플레이리스트 데이터 가져오기
-  const params = [access_token, 5, likePlaylistId];
-  const playlistRequestOptions = og.youtubePlaylistItemsRequestOptions(...params);
+  const params = [access_token, 15, likePlaylistId];
+  const playlistRequestOptions = og.youtubePlaylistItemsRequestOptions(
+    ...params
+  );
 
   await request(playlistRequestOptions)
-    .then(data => {
+    .then((data) => {
       // log('Like playlist data: '.cyan, data);
       // items 개수 만큼 객체 생성해 likeVideos에 넣기
       for (let item of data.items) {
@@ -109,24 +113,27 @@ module.exports = async (req, res) => {
           videoId: snippet.resourceId.videoId,
           channelId: snippet.channelId,
           title: snippet.title,
-          description: snippet.description,
+          description:
+            snippet.description.length > 50
+              ? snippet.description.slice(0, 50)
+              : snippet.description,
           thumbnail: snippet.thumbnails.high.url,
         };
         likedVideos.push(video);
       }
-      // log('Liked videos: '.rainbow, likedVideos);
+      log('Liked videos: '.rainbow, likedVideos);
     })
-    .catch(err => {
+    .catch((err) => {
       log('Error at youtube playlist request in resource.js: '.red, err);
     });
 
   // 준비된 likedVideos 데이터 DB에 저장하고, 성공적으로 저장 되었음이 확인되면 비디오들 클라이언트에 보내기
   Videos.bulkCreate(likedVideos)
-    .then(videos => {
+    .then((videos) => {
       log('Bulk data insert complete'.rainbow);
       res.status(200).json(videos);
     })
-    .catch(err => {
+    .catch((err) => {
       log('Error at Videos.bulkCreate in resource.js'.red, err);
       res.sendStatus(500);
     });
