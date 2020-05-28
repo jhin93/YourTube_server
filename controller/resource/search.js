@@ -10,15 +10,16 @@ module.exports = async (req, res) => {
     else {
       userid = userid.dataValues.id;
 
-      let queryData = await request.get(
+      let queryData = request.get(
         'http://110.14.118.28:9200/rdbms_sync_idx/_search',
         {
           query: {
             bool: {
               should: [
                 { match: { description: req.body.search } },
-                { match: { userid: userid } },
+                { match: { title: req.body.search } },
               ],
+              must: [{ match: { userid: userid } }],
             },
           },
         }
